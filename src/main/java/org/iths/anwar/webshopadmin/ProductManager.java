@@ -35,57 +35,53 @@ public class ProductManager {
     public void addProduct() {
         String cat = ui.prompt("Choose category (1=Book, 2=Electronic, 3=Clothing)");
         // User pressed cancel/enter without input
-        if (cat.isEmpty()) {
+        if (cat == null || cat.isEmpty()) {
             ui.info("Action cancelled");
             return;
         }
 
-        int articleNumber;
-        String productName;
-        String productDescription;
-        double price;
         try {
-            articleNumber = Integer.parseInt(ui.prompt("Article number:"));
-            productName = ui.prompt("Product name:");
-            productDescription = ui.prompt("Product description:");
-            price = Double.parseDouble(ui.prompt("Price:"));
+            int articleNumber = Integer.parseInt(ui.prompt("Article number:"));
+            String productName = ui.prompt("Product name:");
+            String productDescription = ui.prompt("Product description:");
+            double price = Double.parseDouble(ui.prompt("Price:"));
+
+            Product p = switch (cat) {
+                case "1" -> p = new Book(articleNumber, productName, productDescription, price);
+                case "2" -> p = new Electronic(articleNumber, productName, productDescription, price);
+                case "3" -> p = new Clothing(articleNumber, productName, productDescription, price);
+                default -> null;
+            };
+
+            if (p == null) {
+                ui.info("Invalid category, try again");
+                return;
+            }
+
+            // Call the update file method return boolean
+            boolean success = fileMan.addProductAndSave(p);
+            ui.info((success ? "Product added: " : "Failed to add product: ") + p.getTitle());
+
         } catch (NumberFormatException e) {
             System.out.println("Could not convert the values");
             return;
-        }
-
-        Product p = null;
-        switch (cat) {
-            case "1" -> p = new Book(articleNumber, productName, productDescription, price, "Book");
-            case "2" -> p = new Electronic(articleNumber, productName, productDescription, price, "Electronic");
-            case "3" -> p = new Clothing(articleNumber, productName, productDescription, price, "Clothing");
-            default -> ui.info("Invalid category");
-        }
-
-        if (p != null) {
-            // Call the update file method return boolean
-            boolean success = fileMan.updateFile(p);
-            if (success) {
-                ui.info("Product added: " + p.getTitle());
-            } else {
-                ui.info("Failed to add product: " + p.getTitle());
-            }
         }
     }
 
     public void listProducts() {
         List<Product> products = fileMan.getProducts();
-        String message = "";
-
-        for (Product p : products) {
-            message += p.getArticleNumber() + ": " + p.getTitle() + "\n";
-        }
+        StringBuilder message = new StringBuilder("\n------ All Products ------\n");
 
         if (products.isEmpty()) {
-            message = "No products exist";
+            message.append("No products exist");
+            return;
         }
 
-        ui.info("\n------ All Products ------\n" + message);
+        for (Product p : products) {
+            message.append(p.getArticleNumber()).append(": ").append(p.getTitle()).append("\n");
+        }
+
+        ui.info(message.toString());
     }
 
     public void showProductDetails() {
@@ -99,17 +95,25 @@ public class ProductManager {
 
         Product product = fileMan.getProductByArticleNum(articleNum);
 
-        if (product != null) {
-            String message = "Article number: " + product.getArticleNumber() + "\n"
-                    + "Title: " + product.getTitle() + "\n"
-                    + "Description: " + product.getDescription() + "\n"
-                    + "Price: " + product.getPrice() + "\n"
-                    + "Category: " + product.category();
-
-            ui.info("\n------ Product details ------\n" + message);
+        if (product == null) {
+            ui.info("No product found with article number " + articleNum);
             return;
         }
 
-        ui.info("No product found with article number " + articleNum);
+        String message = """
+                Article number: %d
+                Title: %s
+                Description: %s
+                Price: %.2f
+                Category: %s
+                """.formatted(
+                product.getArticleNumber(),
+                product.getTitle(),
+                product.getDescription(),
+                product.getPrice(),
+                product.category()
+        );
+
+        ui.info("\n------ Product details ------\n" + message);
     }
 }

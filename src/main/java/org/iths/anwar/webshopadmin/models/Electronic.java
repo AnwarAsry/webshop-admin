@@ -7,8 +7,8 @@ public class Electronic extends Product {
     public Electronic() {
     }
 
-    public Electronic(int articleNumber, String title, String description, double price, String category) {
-        super(articleNumber, title, description, price, category);
+    public Electronic(int articleNumber, String title, String description, double price) {
+        super(articleNumber, title, description, price, "Electronic");
     }
 
     @Override

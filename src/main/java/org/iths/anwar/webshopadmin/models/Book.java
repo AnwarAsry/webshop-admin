@@ -7,8 +7,8 @@ public class Book extends Product {
     public Book() {
     }
 
-    public Book(int articleNumber, String title, String description, double price, String category) {
-        super(articleNumber, title, description, price, category);
+    public Book(int articleNumber, String title, String description, double price) {
+        super(articleNumber, title, description, price, "Book");
     }
 
     @Override

@@ -42,7 +42,6 @@ public abstract class Product {
         this.category = category;
     }
 
-
     // Every subclass must have method
     public abstract String category();
 
