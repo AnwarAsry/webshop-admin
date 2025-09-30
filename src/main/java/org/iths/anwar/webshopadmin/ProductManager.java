@@ -5,19 +5,20 @@ import org.iths.anwar.webshopadmin.models.Clothing;
 import org.iths.anwar.webshopadmin.models.Electronic;
 import org.iths.anwar.webshopadmin.models.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductManager {
-    List<Product> products = new ArrayList<Product>();
+    List<Product> products;
     private final UI ui;
+    FileManagement fileMan = new FileManagement();
 
-    public ProductManager(UI ui, List<Product> products) {
+    public ProductManager(UI ui) {
         this.ui = ui;
-        this.products = products;
     }
 
     public void run() {
+        products = fileMan.getData();
+
         while (true) {
             String choice = ui.menu();
 
@@ -63,9 +64,15 @@ public class ProductManager {
 
     public void listProducts() {
         String message = "";
+
         for (Product p : products) {
             message += p.getArticleNumber() + ": " + p.getTitle() + "\n";
         }
+
+        if (products.isEmpty()) {
+            message = "No products exist";
+        }
+
         ui.info("\n------ All Products ------\n" + message);
     }
 
@@ -97,9 +104,5 @@ public class ProductManager {
         }
 
         ui.info("No product found with article number " + articleNum);
-    }
-
-    public List<Product> getProducts() {
-        return products;
     }
 }
