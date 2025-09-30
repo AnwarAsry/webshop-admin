@@ -1,5 +1,10 @@
 package org.iths.anwar.webshopadmin;
 
+import org.iths.anwar.webshopadmin.models.Book;
+import org.iths.anwar.webshopadmin.models.Clothing;
+import org.iths.anwar.webshopadmin.models.Electronic;
+import org.iths.anwar.webshopadmin.models.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,10 +62,11 @@ public class ProductManager {
     }
 
     public void listProducts() {
-        ui.info("\n------ All Products ------");
+        String message = "";
         for (Product p : products) {
-            ui.info(p.getArticleNumber() + ": " + p.getTitle());
+            message += p.getArticleNumber() + ": " + p.getTitle() + "\n";
         }
+        ui.info("\n------ All Products ------\n" + message);
     }
 
     public void showProductDetails() {
@@ -80,16 +86,20 @@ public class ProductManager {
 
         for (Product p : products) {
             if (p.getArticleNumber() == articleNum) {
-                ui.info("\n------ Product details ------");
-                ui.info("Article number: " + p.getArticleNumber());
-                ui.info("Title: " + p.getTitle());
-                ui.info("Description: " + p.getDescription());
-                ui.info("Price: " + p.getPrice() + " $");
-                ui.info("Category: " + p.category());
+                String message = "Article number: " + p.getArticleNumber() + "\n"
+                        + "Title: " + p.getTitle() + "\n"
+                        + "Description: " + p.getDescription() + "\n"
+                        + "Price: " + p.getPrice() + "\n"
+                        + "Category: " + p.category();
+                ui.info("\n------ Product details ------\n" + message);
                 return;
             }
         }
 
         ui.info("No product found with article number " + articleNum);
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 }

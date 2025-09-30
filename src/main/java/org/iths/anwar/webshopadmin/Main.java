@@ -1,40 +1,36 @@
 package org.iths.anwar.webshopadmin;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.iths.anwar.webshopadmin.models.Product;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+    private static final File dataFile = new File("data/products.json");
+
     public static void main(String[] args) {
+        ObjectMapper mapper = new ObjectMapper();
         List<Product> products = new ArrayList<>();
 
-        Product p1 = new Book(
-                34629,
-                "Ready player one",
-                "Novel by Ernest Cline, about a dystopian future where people escape reality by living in a vast virtual world called the OASIS.",
-                11.99
-        );
-        Product p2 = new Electronic(
-                12938,
-                "Apple Macbook Pro 14",
-                "A powerful, compact laptop designed for professionals, featuring the M4 chip for enhanced performance and Apple Intelligence features.",
-                2099
-        );
-        Product p3 = new Clothing(
-                69302,
-                "Round Ultra Mini Bag",
-                "Compact size handily holds your smartphone and wallet.",
-                13.99
-        );
+        // load products
+        if (dataFile.exists()) {
+            try {
+                products = mapper.readValue(dataFile, new TypeReference<List<Product>>() {
+                });
+                System.out.println("Loaded " + products.size() + " products.");
+            } catch (IOException e) {
+                System.out.println("Could not load products: " + e.getMessage());
+            }
+        }
 
-        products.add(p1);
-        products.add(p2);
-        products.add(p3);
+        UI ui = new ConsoleUI();
+        //UI ui = new JOptionPaneUI();
+        ProductManager manager = new ProductManager(ui, products);
 
-        // Switch between these if you want console or JOptionPane
-        UI ui = new JOptionPaneUI();
-        //UI ui = new ConsoleUI();
-
-        ProductManager pm = new ProductManager(ui, products);
-        pm.run();
+        manager.run();
     }
 }
