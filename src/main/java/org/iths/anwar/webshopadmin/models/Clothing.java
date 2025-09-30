@@ -7,8 +7,8 @@ public class Clothing extends Product {
     public Clothing() {
     }
 
-    public Clothing(int articleNumber, String title, String description, double price) {
-        super(articleNumber, title, description, price);
+    public Clothing(int articleNumber, String title, String description, double price, String category) {
+        super(articleNumber, title, description, price, category);
     }
 
     @Override

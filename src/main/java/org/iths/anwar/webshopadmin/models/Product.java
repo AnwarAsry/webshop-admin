@@ -1,6 +1,5 @@
 package org.iths.anwar.webshopadmin.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -22,18 +21,27 @@ public abstract class Product {
     private String title;
     private String description;
     private double price;
-    @JsonIgnore
     private String category;
 
     public Product() {
     }
 
-    public Product(int articleNumber, String title, String description, double price) {
+    public Product(int articleNumber, String title, String description, double price, String category) {
         this.articleNumber = articleNumber;
         this.title = title;
         this.description = description;
         this.price = price;
+        this.category = category;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 
     // Every subclass must have method
     public abstract String category();

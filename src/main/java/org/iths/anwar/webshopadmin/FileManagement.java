@@ -14,7 +14,30 @@ public class FileManagement {
     private final File dataFile = new File("data/products.json");
     ObjectMapper mapper = new ObjectMapper();
 
-    // Fetches the data (Products)
+    // Get Products
+    public List<Product> getProducts() {
+        return getData();
+    }
+
+    public Product getProductByArticleNum(int articleNumber) {
+        List<Product> products = getData();
+        return products.stream().filter(product -> product.getArticleNumber() == articleNumber).findFirst().orElse(null);
+    }
+
+    // Updates file with new data
+    public boolean updateFile(Product product) {
+        System.out.println("updating file");
+        try {
+            List<Product> products = getData();
+            products.add(product);
+            mapper.writeValue(dataFile, products);
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error while updating file");
+            return false;
+        }
+    }
+
     public List<Product> getData() {
         List<Product> products = new ArrayList<>();
         try {
@@ -22,7 +45,6 @@ public class FileManagement {
             if (checkFileExist()) {
                 products = mapper.readValue(dataFile, new TypeReference<List<Product>>() {
                 });
-                System.out.printf("Loaded %s products.", products.size());
                 return products;
             }
             // Creates file if not exist
@@ -31,11 +53,6 @@ public class FileManagement {
             System.out.println("Could not read file: " + e.getMessage());
         }
         return products;
-    }
-
-    // Updates file with new data
-    public void updateFile() {
-
     }
 
     public boolean checkFileExist() {
