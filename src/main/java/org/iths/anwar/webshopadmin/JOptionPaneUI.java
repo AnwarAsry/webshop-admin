@@ -1,5 +1,7 @@
 package org.iths.anwar.webshopadmin;
 
+import org.iths.anwar.webshopadmin.models.UI;
+
 import javax.swing.*;
 
 public class JOptionPaneUI implements UI {

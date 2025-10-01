@@ -1,9 +1,6 @@
-package org.iths.anwar.webshopadmin;
+package org.iths.anwar.webshopadmin.controller;
 
-import org.iths.anwar.webshopadmin.models.Book;
-import org.iths.anwar.webshopadmin.models.Clothing;
-import org.iths.anwar.webshopadmin.models.Electronic;
-import org.iths.anwar.webshopadmin.models.Product;
+import org.iths.anwar.webshopadmin.models.*;
 
 import java.util.List;
 

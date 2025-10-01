@@ -1,5 +1,7 @@
 package org.iths.anwar.webshopadmin;
 
+import org.iths.anwar.webshopadmin.models.UI;
+
 import java.util.Scanner;
 
 public class ConsoleUI implements UI {

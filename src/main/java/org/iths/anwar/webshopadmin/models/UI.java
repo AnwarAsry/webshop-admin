@@ -1,4 +1,4 @@
-package org.iths.anwar.webshopadmin;
+package org.iths.anwar.webshopadmin.models;
 
 public interface UI {
     // Ask user for input and return the text
