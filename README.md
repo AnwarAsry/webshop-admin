@@ -7,6 +7,7 @@ It highlights how OOP concepts can be applied to build modular, reusable, and ma
 - Add new products to the webshop
 - List all available products
 - View detailed information about a specific product
+- Data persistence with JSON
 
 ## 🛠️ Technologies & Concepts
 The project is written in Java and focuses on applying fundamental OOP principles:
@@ -15,3 +16,12 @@ The project is written in Java and focuses on applying fundamental OOP principle
 - Abstract classes & Inheritance – to model different types of products (e.g., digital vs. physical)
 - Polymorphism – to handle multiple product types dynamically
 - Method overloading – to provide flexible ways of adding products
+- Jackson library - for data storing
+
+## How to use
+Inside Main.java you can choose which UI the program uses:
+```
+// UI ui = new ConsoleUI();   // Use console-based interface
+UI ui = new JOptionPaneUI();  // Use graphical dialog interface
+```
+
